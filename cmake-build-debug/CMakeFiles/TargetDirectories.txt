@@ -1,0 +1,3 @@
+C:/Users/cheji/Desktop/P Semestre 2024/EDD/Lab/Practica_2/cmake-build-debug/CMakeFiles/Practica_2.dir
+C:/Users/cheji/Desktop/P Semestre 2024/EDD/Lab/Practica_2/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/cheji/Desktop/P Semestre 2024/EDD/Lab/Practica_2/cmake-build-debug/CMakeFiles/rebuild_cache.dir

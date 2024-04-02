@@ -12,4 +12,5 @@ add_executable(Practica_2 main.cpp
         Grupo.h
         Grupos.h
         Arbol.h
+        Log.h
 )

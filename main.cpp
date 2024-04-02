@@ -9,7 +9,7 @@
 using namespace std;
 
 int cantGruposs = 0;
-Grupos* grupos;
+Grupos* grupos = new Grupos();
 
     void identificarCreacion(string input){
         int cont_int = 0, cont_strg = 0, cont_char = 0, cont_date = 0;
@@ -100,6 +100,10 @@ Grupos* grupos;
                 if (input.substr(i, 8) == " FIELDS "){
                     nombreGrupos = input.substr(0, i+1);
                     input.erase(0, i+7);
+
+                    if (input[0] == ' '){
+                        input.erase(0, 1);
+                    }
                     if(input.length() > 0 && input[0] == '('){
                         input.erase(0, 1);
                     }
@@ -121,6 +125,44 @@ Grupos* grupos;
         }
     }
 
+    void identificarBusqueda(string input){
+        string nombreGrupos = "", cont = "FIND CONTACT IN ", busqueda = "", dato = "";
+        if (input.length() > cont.length() && input.substr(0, cont.length()) == "FIND CONTACT IN "){
+            input.erase(0, cont.length());
+            int tam = input.length();
+            for (int i = 0; i < tam; ++i) {
+                if (input.substr(i, 15) == " CONTACT-FIELD "){
+                    nombreGrupos = input.substr(0, i+1);
+                    input.erase(0, i+14);
+                    for (int j = 0; j < input.length(); ++j) {
+                        if (input[j] != '='){
+                            busqueda += input[j];
+                        } else {
+                            input.erase(0, j);
+                            dato = input;
+                        }
+                    }
+                    break;
+                }
+            }
+            cout<<"Los datos del contacto son"<<endl;
+            if(busqueda[0]==' '){
+                busqueda.erase(0,1);
+            }
+            if(dato[0] == '='){
+                dato.erase(0,1);
+            }
+            cout<<nombreGrupos<<endl;
+
+            cout<<busqueda<<endl;
+
+            cout<<dato<<endl;
+
+            cout<<grupos->buscar(nombreGrupos,busqueda, dato)<<endl;
+        }
+
+    }
+
     int hash(string input){
         int hashValue = 0;
         for (char ch : input) {
@@ -137,17 +179,18 @@ Grupos* grupos;
 int main() {
     bool fin = false;
     int opcion;
-    for (int i = 0; i < 2; ++i) {
+    string input;
+    /*for (int i = 0; i < 2; ++i) {
         string cade;
         getline(cin, cade);
         identificarCreacion(cade);
     }
     string cade;
     getline(cin, cade);
-    //identificarInsercion(cade);
+    //identificarInsercion(cade);*/
 
 
-    /*
+
 
      while (!fin){
         cout<<endl;
@@ -157,9 +200,35 @@ int main() {
         cout<<"----------   SISTEMA DE GESTION DE CONTACTOS  ----------"<<endl;
         cout<<"1.   Ingresar Nuevos Grupos"<<endl;
         cout<<"2.   Insercion de Contactos"<<endl;
+        cout<<"3.   Buscar Contactos"<<endl;
+        cout<<"4.   Salir"<<endl;
+         getline(cin, input);
+         opcion = stoi(input);
+
+
+
+         switch (opcion) {
+             case 1:
+                 cout<<"Comando Creacion"<<endl;
+                 getline(cin, input);
+                 identificarCreacion(input);
+                 break;
+             case 2:
+                 cout<<"Comando Inserciom"<<endl;
+                 getline(cin, input);
+                 identificarInsercion(input);
+                 break;
+             case 3:
+                 cout<<"Comando Busqueda"<<endl;
+                 getline(cin, input);
+                 identificarBusqueda(input);
+                 break;
+             case 4:
+                 break;
+         }
 
     }
 
-     */
+
     return 0;
 }

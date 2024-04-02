@@ -37,6 +37,7 @@ public:
     void insertar(T dato, string infocontacto){
         this->dato = dato;
         this->infoContacto = infocontacto;
+        cout<<"Se inserto " << dato<< endl;
     }
 
     T obtenerDato(){

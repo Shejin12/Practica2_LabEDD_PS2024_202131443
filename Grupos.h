@@ -18,6 +18,12 @@ private:
 public:
 
     Grupos(){
+        //nombreGrupos = nombre;
+        contactos = new Grupo * [size];
+        for (int i = 0; i < size; ++i) {
+            contactos[i] = nullptr;
+        }
+        size = 5;
     }
 
     Grupos(string nombre){
@@ -26,6 +32,7 @@ public:
         for (int i = 0; i < size; ++i) {
             contactos[i] = nullptr;
         }
+        size = 5;
     }
 
     string getName(){
@@ -52,10 +59,13 @@ public:
 
     int hash(string input){
         int hashValue = 0;
+        int res = 0;
         for (char ch : input) {
             hashValue += static_cast<int>(ch);
         }
-        return hashValue % size;
+        res = hashValue % size;
+        cout<<"Res: "<<res<<endl;
+        return res;
     }
 
     void agregarGrupo(string name, string comando){
@@ -74,6 +84,16 @@ public:
             dondeAgregar->agregarContacto(comando);
         }else{
             // Informar en log
+        }
+    }
+
+    string buscar(string nombreGrupo, string campo, string dato){
+        int pos = hash(nombreGrupo);
+        if (contactos[pos] != nullptr){
+            return contactos[pos]->busqueda(campo, dato);
+        } else {
+            cout<<"Grupo no encontrado"<<endl;
+            return "No hay";
         }
     }
 

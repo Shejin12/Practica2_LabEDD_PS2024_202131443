@@ -25,9 +25,12 @@ private:
         return node;
     }
 
-    Nodo<T>* findRecursive(Nodo<T>* node, int dato) {
+    Nodo<T>* findRecursive(Nodo<T>* node, T dato) {
         if (node == nullptr || node->obtenerDato() == dato) {
-            return node;
+            return nullptr;
+        }
+        if (node->obtenerDato() == dato){
+
         }
 
         if (dato < node->obtenerDato()) {
@@ -36,6 +39,32 @@ private:
             return findRecursive(node->irSiguiente(), dato);
         }
     }
+
+    Nodo<T>* buscarPorContenidoRecursivo(Nodo<T>* nodo, T contenido){
+        if (nodo == nullptr ) {
+            return nullptr;
+        }
+
+        if(nodo->obtenerDato() == contenido){
+            return nodo;
+        }else{
+            Nodo<T>* temporal;
+            if(nodo->irAnterior() != nullptr){
+                temporal = buscarPorContenidoRecursivo(nodo->irAnterior(), contenido);
+                if(temporal!= nullptr){
+                    return temporal;
+                }
+            }
+            if(nodo->irSiguiente() != nullptr){
+                temporal = buscarPorContenidoRecursivo(nodo->irSiguiente(), contenido);
+                if(temporal!= nullptr){
+                    return temporal;
+                }
+            }
+        }
+        return nullptr;
+    }
+
 
     int height(Nodo<T>* node) {
         if (node == nullptr) {
@@ -110,12 +139,14 @@ public:
 
 
     Nodo<T>* find(T dato) {
-        return findRecursive(root, dato);
+        //return findRecursive(root, dato);
+        return buscarPorContenidoRecursivo(root, dato);
     }
+
     string obtenerInfoDato(T dato){
-        Nodo<T> obtenido = find(dato);
+        Nodo<T>* obtenido = find(dato);
         if (obtenido != nullptr){
-            return obtenido.obtenerInfo();
+            return obtenido->obtenerInfo();
         } else {
             return "No encontrado";
         }

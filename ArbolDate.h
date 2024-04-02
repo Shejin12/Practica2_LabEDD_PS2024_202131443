@@ -4,7 +4,7 @@
 #include "Arbol.h"
 
 
-class ArbolDate : public Arbol<int> {
+class ArbolDate : public Arbol<string> {
 
 };
 #endif //PRACTICA_2_ARBOLDATE_H

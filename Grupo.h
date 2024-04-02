@@ -33,7 +33,7 @@ public:
             if(comando[i] != ',' && comando[i] != ' '){
                 campo += comando[i];
             }else{
-                if(campo != "STRING" || campo != "INTEGER" || campo != "CHAR" || campo != "DATE"){
+                if(campo != "STRING" && campo != "INTEGER" && campo != "CHAR" && campo != "DATE"){
                     agregarArbol(campo);
                     listaCampos+= campo+",";
                 }
@@ -82,7 +82,10 @@ public:
             if(comando[i] != ' '){
                 dato += comando[i];
             }else{
-                if(dato.length()>2 && dato.length()-1 == ','){
+                if(dato[dato.length()-1]!= ','){
+                    dato+=',';
+                }
+                if(dato.length()>2 && dato[dato.length()-1] == ','){
                     dato.erase(dato.length()-1, 1);
 
                     //Encontrar el campo
@@ -133,7 +136,7 @@ public:
                                 {
                                     ArbolDate *aInse = Info_Date[posArbol];
                                     if (aInse != nullptr) {
-                                        aInse->insert(dato, comando)
+                                        aInse->insert(dato, comando);
                                     } else {
                                         //Hubo una colision;
                                     }
@@ -144,7 +147,10 @@ public:
                                     break;
                                 }
                             }
-
+                            campo = "";
+                            dato = "";
+                            posListaCampos = j+1;
+                            break;
                         }
                     }
 
@@ -163,7 +169,68 @@ public:
             {
                 ArbolString *aIns = Info_strings[pos];
                 if (aIns == nullptr) {
-                    aIns = new ArbolString();
+                    Info_strings[pos] = new ArbolString();
+                    cout<<"Se agrego el arbol string " << Campo<<endl;
+                } else {
+                    //Hubo una colision;
+                    cout<<"Colision al agregar arbol string" << Campo<<endl;
+                }
+                break;
+            }
+
+            case 1: // Int
+            {
+                ArbolInt *aInse = Info_int[pos];
+                if (aInse == nullptr) {
+                    Info_int[pos] = new ArbolInt();
+                    cout<<"Se agrego el arbol int " << Campo<<endl;
+                } else {
+                    //Hubo una colision;
+                    cout<<"Colision al agregar int string" << Campo<<endl;
+                }
+                break;
+            }
+
+            case 2: // Char
+            {
+                ArbolChar *aInser = Info_char[pos];
+                if (aInser == nullptr) {
+                    Info_char[pos] = new ArbolChar();
+                    cout<<"Se agrego el arbol Char " << Campo<<endl;
+                } else {
+                    //Hubo una colision;
+                    cout<<"Colision al agregar arbol char" << Campo<<endl;
+                }
+                break;
+            }
+            case 3: // Date
+            {
+                ArbolDate *aInse = Info_Date[pos];
+                if (aInse == nullptr) {
+                    Info_Date[pos] = new ArbolDate();
+                    cout<<"Se agrego el arbol date " << Campo<<endl;
+                } else {
+                    //Hubo una colision;
+                    cout<<"Colision al agregar arbol date" << Campo<<endl;
+                }
+                break;
+            }
+            default: // No se encontro
+            {//Avisar en el log
+                break;
+            }
+        }
+    }
+
+    string busqueda(string campo, string dato){
+        int tipo = obtenerTipo(campo);
+        int pos = hash(campo);
+        switch (tipo) {
+            case 0:// String
+            {
+                ArbolString *aIns = Info_strings[pos];
+                if (aIns != nullptr) {
+                    return aIns->obtenerInfoDato(dato);
                 } else {
                     //Hubo una colision;
                 }
@@ -174,7 +241,7 @@ public:
             {
                 ArbolInt *aInse = Info_int[pos];
                 if (aInse == nullptr) {
-                    aInse = new ArbolInt();
+                    return aInse->obtenerInfoDato(stoi(dato));
                 } else {
                     //Hubo una colision;
                 }
@@ -185,7 +252,7 @@ public:
             {
                 ArbolChar *aInser = Info_char[pos];
                 if (aInser == nullptr) {
-                    aInser = new ArbolChar();
+                    return aInser->obtenerInfoDato(dato[0]);;
                 } else {
                     //Hubo una colision;
                 }
@@ -195,7 +262,7 @@ public:
             {
                 ArbolDate *aInse = Info_Date[pos];
                 if (aInse == nullptr) {
-                    aInse = new ArbolDate();
+                    return aInse->obtenerInfoDato(dato);
                 } else {
                     //Hubo una colision;
                 }
@@ -206,6 +273,7 @@ public:
                 break;
             }
         }
+
     }
 
     void agregarNombre(string name){

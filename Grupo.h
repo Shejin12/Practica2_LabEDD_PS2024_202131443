@@ -287,7 +287,8 @@ public:
                 break;
             }
         }
-
+        logger->log("Clase Grupo: No se encontro un dato valido");
+        return "No se encontro un dato valido";
     }
 
     void agregarNombre(string name){

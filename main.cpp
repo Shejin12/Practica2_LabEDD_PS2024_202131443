@@ -9,10 +9,9 @@
 using namespace std;
 
 int cantCampos = 0;
-Campo* campos[50];
+Campo** campos;
 
     void identificarCreacion(string input){
-        int tamano = input.length();
         int cont_int = 0, cont_strg = 0, cont_char = 0, cont_date = 0;
         string nombreGrupo = "", comando = "";
         Campo* nuevo;
@@ -24,6 +23,7 @@ Campo* campos[50];
         while (iss >> palabra) {
             palabras.push_back(palabra);
         }
+        int tamano = palabras.size();
 
         cout << "Las palabras separadas son:" << endl;
         string listado[palabras.size()];
@@ -41,13 +41,13 @@ Campo* campos[50];
                     nombreGrupo += listado[i + cont] + " ";
                     cont++;
                     }
-                    cout<<nombreGrupo<<endl;
                     nuevo = new Campo(nombreGrupo);
                 } catch (const runtime_error& e){
                     cout<<"EL CODIGO NO HA SIDO INGRESADO CORRECTAMENTE, POR FAVOR REVISE LA INSERSION"<<endl;
                     break;
                 }
-            } else if (listado[i] == "("){
+            }
+            if (listado[i] == "("){
                 for (int j = i+1; j < tamano; ++j) {
                     if (listado[j] == "CHAR," || listado[j] == "CHAR"){
                         cont_char++;
@@ -70,21 +70,23 @@ Campo* campos[50];
                     }
                 }
                 break;
-            } else {
-                break;
             }
         }
     }
 
-    Campo* buscarNombreCampo(string name){
+int encontrarCampo(string nombre){
+    if (campos[0] == nullptr){
+        return -1;
+    } else {
         for (int i = 0; i < cantCampos; ++i) {
-            if (campos[i]->getName() == name){
-                return campos[i];
+            if (campos[i]->getName() == nombre){
+                return i;
             }
         }
-        return nullptr;
+        return -1;
     }
-
+    return -1;
+}
     void identificarInsercion(string input){
         string nombreCampo = "";
         if (input.substr(0, 15) == "ADD CONTACT IN "){
@@ -92,15 +94,38 @@ Campo* campos[50];
             int tam = input.length();
             for (int i = 0; i < tam; ++i) {
                 if (input.substr(i, 8) == " FIELDS "){
-                    nombreCampo = input.substr(0, i);
+                    nombreCampo = input.substr(0, i+1);
+                    input.erase(0, i+7);
                 }
             }
+            int encontrar = encontrarCampo(nombreCampo);
+            if (encontrar < 0){
+                cout<<"Campo no encontrado"<< endl;
+            } else {
+                Contacto* nuevo = new Contacto();
+
+            }
+
+        } else {
+            cout<<"ESTRUCTURA DEL COMANDO NO RECONOCIDA, VERIFIQUE EL COMANDO"<<endl;
+            cout<<"Presione ENTER para continuar"<<endl;
+            cin>>nombreCampo;
         }
     }
 
-    bool encontrado(string nombre){
-        for (int i = 0; i < cantCampos; ++i) {
-            
+    int hash(string input){
+        int hashValue = 0;
+        for (char ch : input) {
+            hashValue += static_cast<int>(ch);
+        }
+        return hashValue;
+    }
+
+    void iniciarCampos(){
+        int size = 5;
+        campos = new Campo* [size];
+        for (int i = 0; i < size; ++i) {
+            campos[i] = nullptr;
         }
     }
 
@@ -111,8 +136,10 @@ Campo* campos[50];
 int main() {
     bool fin = false;
     int opcion;
-    for (int i = 0; i < 50; ++i) {
-        campos[50] = new Campo();
+    for (int i = 0; i < 2; ++i) {
+        string cade;
+        getline(cin, cade);
+        identificarCreacion(cade);
     }
     string cade;
     getline(cin, cade);

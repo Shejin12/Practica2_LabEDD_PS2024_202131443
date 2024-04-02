@@ -30,7 +30,7 @@ public:
         cantInsersion = cant;
     }
 
-    void ingresarCampo(Contacto* newContac){
+    void ingresarContacto(Contacto* newContac){
         if (contactos[0] == nullptr){
             contactos[0] = newContac;
         } else {

@@ -5,11 +5,13 @@
 #include <string>
 #include "sstream"
 #include "vector"
+#include "Log.h"
 
 using namespace std;
 
 int cantGruposs = 0;
 Grupos* grupos = new Grupos();
+Log* logger = new Log();
 
     void identificarCreacion(string input){
         int cont_int = 0, cont_strg = 0, cont_char = 0, cont_date = 0;
@@ -212,18 +214,22 @@ int main() {
                  cout<<"Comando Creacion"<<endl;
                  getline(cin, input);
                  identificarCreacion(input);
+                 logger->log("Clase Main: Se ejecuto Agregar un nuevo Grupo");
                  break;
              case 2:
                  cout<<"Comando Inserciom"<<endl;
                  getline(cin, input);
                  identificarInsercion(input);
+                 logger->log("Clase Main: Se ejecuto Agregar un nuevo Contacto");
                  break;
              case 3:
                  cout<<"Comando Busqueda"<<endl;
                  getline(cin, input);
                  identificarBusqueda(input);
+                 logger->log("Clase Main: Se ejecuto Buscar entre los contactos");
                  break;
              case 4:
+                 logger->log("Clase Main: Se cerro el programa");
                  break;
          }
 

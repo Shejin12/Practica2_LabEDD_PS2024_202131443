@@ -1,12 +1,15 @@
 #ifndef PRACTICA_2_NODO_H
 #define PRACTICA_2_NODO_H
 
+#include "Log.h"
+
 #include <iostream>
 using namespace std;
 
 template <typename T>
 class Nodo {
 private:
+    Log* logger = new Log();
     T dato;
     string infoContacto = "";
     Nodo<T>* Anterior;
@@ -38,6 +41,7 @@ public:
         this->dato = dato;
         this->infoContacto = infocontacto;
         cout<<"Se inserto " << dato<< endl;
+        logger->log("Clase Nodo: Se inserto " + dato );
     }
 
     T obtenerDato(){

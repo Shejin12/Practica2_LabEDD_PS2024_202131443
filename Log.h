@@ -7,11 +7,10 @@
 
 using namespace std;
 
-class Logger {
+class Log {
 public:
     void log(const string& message) {
-        cout << message << endl;
-        ofstream file("./Reportes/Contactos.log", ios::app);
+        ofstream file("./Registros/Historial.log", ios::app);
         if (file.is_open()) {
             time_t now = time(nullptr);
             char timestamp[20];

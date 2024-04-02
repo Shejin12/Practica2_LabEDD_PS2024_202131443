@@ -3,9 +3,11 @@
 
 #include "Grupo.h"
 #include "Arbolin.h"
+#include "Log.h"
 
 class Grupos{
 private:
+    Log* logger = new Log();
     string nombreGrupos;
     Grupo** contactos;
     string comandoInsersion;
@@ -74,6 +76,7 @@ public:
             contactos[pos] = new Grupo(comando);
         } else {
             cout<<"Colision"<<endl;
+            logger->log("Clase Grupos: Colision al agregar grupo");
         }
     }
 
@@ -83,17 +86,19 @@ public:
         if(dondeAgregar != nullptr){
             dondeAgregar->agregarContacto(comando);
         }else{
-            // Informar en log
+            logger->log("Clase Grupos: Fallo al agregar contacto");
         }
     }
 
     string buscar(string nombreGrupo, string campo, string dato){
         int pos = hash(nombreGrupo);
         if (contactos[pos] != nullptr){
+            string contacto = contactos[pos]->busqueda(campo, dato);
+            logger->log("Clase Grupos: " + contacto);
             return contactos[pos]->busqueda(campo, dato);
         } else {
-            cout<<"Grupo no encontrado"<<endl;
-            return "No hay";
+            logger->log("Clase Grupos: Contacto no encontrado");
+            return "Contacto no encontrado";
         }
     }
 

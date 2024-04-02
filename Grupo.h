@@ -6,9 +6,11 @@
 #include "ArbolInt.h"
 #include "ArbolString.h"
 #include "Arbol.h"
+#include "Log.h"
 
 class Grupo{
 private:
+    Log* logger = new Log();
     string nombre, listaTipos = "";
     string listaCampos;
     ArbolInt* Info_int[10];
@@ -106,7 +108,7 @@ public:
                                     if (aIns != nullptr) {
                                         aIns->insert(dato, comando);
                                     } else {
-                                        //No existe el arbol ;
+                                        logger->log("Clase Grupo: Colision con el tipo de dato String");
                                     }
                                     break;
                                 }
@@ -117,7 +119,7 @@ public:
                                     if (aInse != nullptr) {
                                         aInse->insert(stoi(dato), comando);
                                     } else {
-                                        //No existe el arbol;
+                                        logger->log("Clase Grupo: Colision con el tipo de dato Integer");
                                     }
                                     break;
                                 }
@@ -128,7 +130,7 @@ public:
                                     if (aInser != nullptr) {
                                         aInser->insert(dato[0], comando);
                                     } else {
-                                        //Hubo una colision;
+                                        logger->log("Clase Grupo: Colision con el tipo de dato Char");
                                     }
                                     break;
                                 }
@@ -138,12 +140,13 @@ public:
                                     if (aInse != nullptr) {
                                         aInse->insert(dato, comando);
                                     } else {
-                                        //Hubo una colision;
+                                        logger->log("Clase Grupo: Colision con el tipo de dato Date");
                                     }
                                     break;
                                 }
                                 default: // No se encontro
-                                {//Avisar en el log
+                                {
+                                    logger->log("Clase Grupo: No se encontro el tipo de dato ");
                                     break;
                                 }
                             }
@@ -171,9 +174,11 @@ public:
                 if (aIns == nullptr) {
                     Info_strings[pos] = new ArbolString();
                     cout<<"Se agrego el arbol string " << Campo<<endl;
+                    logger->log("Clase Grupo: Se agrego el arbol string " + Campo);
                 } else {
                     //Hubo una colision;
                     cout<<"Colision al agregar arbol string" << Campo<<endl;
+                    logger->log("Clase Grupo: Colision al agregar arbol string " + Campo);
                 }
                 break;
             }
@@ -184,9 +189,11 @@ public:
                 if (aInse == nullptr) {
                     Info_int[pos] = new ArbolInt();
                     cout<<"Se agrego el arbol int " << Campo<<endl;
+                    logger->log("Clase Grupo: Se agrego el arbol int " + Campo);
                 } else {
                     //Hubo una colision;
                     cout<<"Colision al agregar int string" << Campo<<endl;
+                    logger->log("Clase Grupo: Colision al agregar arbol int " + Campo);
                 }
                 break;
             }
@@ -197,9 +204,11 @@ public:
                 if (aInser == nullptr) {
                     Info_char[pos] = new ArbolChar();
                     cout<<"Se agrego el arbol Char " << Campo<<endl;
+                    logger->log("Clase Grupo: Se agrego el arbol char " + Campo);
                 } else {
                     //Hubo una colision;
                     cout<<"Colision al agregar arbol char" << Campo<<endl;
+                    logger->log("Clase Grupo: Colision al agregar arbol char " + Campo);
                 }
                 break;
             }
@@ -209,14 +218,18 @@ public:
                 if (aInse == nullptr) {
                     Info_Date[pos] = new ArbolDate();
                     cout<<"Se agrego el arbol date " << Campo<<endl;
+
+                    logger->log("Clase Grupo: Se agrego el arbol date " + Campo);
                 } else {
                     //Hubo una colision;
                     cout<<"Colision al agregar arbol date" << Campo<<endl;
+                    logger->log("Clase Grupo: Colision al agregar arbol date " + Campo);
                 }
                 break;
             }
             default: // No se encontro
-            {//Avisar en el log
+            {
+                logger->log("Clase Grupo: No se hallo un arbol compatible con " + Campo);
                 break;
             }
         }
@@ -232,7 +245,7 @@ public:
                 if (aIns != nullptr) {
                     return aIns->obtenerInfoDato(dato);
                 } else {
-                    //Hubo una colision;
+                    logger->log("Clase Grupo: Colision al buscar");
                 }
                 break;
             }
@@ -243,7 +256,7 @@ public:
                 if (aInse == nullptr) {
                     return aInse->obtenerInfoDato(stoi(dato));
                 } else {
-                    //Hubo una colision;
+                    logger->log("Clase Grupo: Colision al buscar");
                 }
                 break;
             }
@@ -254,7 +267,7 @@ public:
                 if (aInser == nullptr) {
                     return aInser->obtenerInfoDato(dato[0]);;
                 } else {
-                    //Hubo una colision;
+                    logger->log("Clase Grupo: Colision al buscar");
                 }
                 break;
             }
@@ -264,12 +277,13 @@ public:
                 if (aInse == nullptr) {
                     return aInse->obtenerInfoDato(dato);
                 } else {
-                    //Hubo una colision;
+                    logger->log("Clase Grupo: Colision al buscar");
                 }
                 break;
             }
             default: // No se encontro
-            {//Avisar en el log
+            {
+                logger->log("Clase Grupo: No se hallo un contacto con estos datos");
                 break;
             }
         }

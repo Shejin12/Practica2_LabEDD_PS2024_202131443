@@ -2,6 +2,7 @@
 #define PRACTICA_2_ARBOL_H
 
 #include "Nodo.h"
+#include "Log.h"
 
 template <typename T>
 class Arbol {

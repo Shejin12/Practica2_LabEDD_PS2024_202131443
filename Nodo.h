@@ -8,6 +8,7 @@ template <typename T>
 class Nodo {
 private:
     T dato;
+    string infoContacto = "";
     Nodo<T>* Anterior;
     Nodo<T>* Siguiente;
 
@@ -33,12 +34,21 @@ public:
         return Anterior;
     }
 
-    void insertar(T dato){
+    void insertar(T dato, string infocontacto){
         this->dato = dato;
+        this->infoContacto = infocontacto;
     }
 
     T obtenerDato(){
         return dato;
+    }
+
+    void agregarInfo(string input){
+        infoContacto += input;
+    }
+
+    string obtenerInfo(){
+        return infoContacto;
     }
 };
 #endif //PRACTICA_2_NODO_H

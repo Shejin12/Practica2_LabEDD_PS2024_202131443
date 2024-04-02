@@ -4,7 +4,7 @@
 #include "Arbol.h"
 
 
-class ArbolChar : Arbol<char> {
+class ArbolChar : public Arbol<char> {
 
 };
 #endif //PRACTICA_2_ARBOLCHAR_H

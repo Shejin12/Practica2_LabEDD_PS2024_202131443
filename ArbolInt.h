@@ -4,7 +4,7 @@
 #include "Arbol.h"
 
 
-class ArbolInt : Arbol<int> {
+class ArbolInt : public Arbol<int> {
 
 };
 #endif //PRACTICA_2_ARBOLINT_H

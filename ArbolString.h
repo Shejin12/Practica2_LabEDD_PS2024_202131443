@@ -4,7 +4,7 @@
 #include "Arbol.h"
 
 
-class ArbolString : Arbol<string> {
+class ArbolString : public Arbol<string> {
 
 };
 #endif //PRACTICA_2_ARBOLSTRING_H

@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "Campo.h"
+#include "Grupos.h"
 
 #include <string>
 #include "sstream"
@@ -8,13 +8,12 @@
 
 using namespace std;
 
-int cantCampos = 0;
-Campo** campos;
+int cantGruposs = 0;
+Grupos* grupos;
 
     void identificarCreacion(string input){
         int cont_int = 0, cont_strg = 0, cont_char = 0, cont_date = 0;
         string nombreGrupo = "", comando = "";
-        Campo* nuevo;
 
         istringstream iss(input);
         vector<string> palabras;
@@ -41,7 +40,6 @@ Campo** campos;
                     nombreGrupo += listado[i + cont] + " ";
                     cont++;
                     }
-                    nuevo = new Campo(nombreGrupo);
                 } catch (const runtime_error& e){
                     cout<<"EL CODIGO NO HA SIDO INGRESADO CORRECTAMENTE, POR FAVOR REVISE LA INSERSION"<<endl;
                     break;
@@ -51,22 +49,25 @@ Campo** campos;
                 for (int j = i+1; j < tamano; ++j) {
                     if (listado[j] == "CHAR," || listado[j] == "CHAR"){
                         cont_char++;
-                        comando += "CHAR ";
+                        comando += listado[j-1];
+                        comando += " CHAR,";
                     } else if (listado[j] == "INTEGER," || listado[j] == "INTEGER"){
                         cont_int++;
-                        comando += "INTEGER ";
+                        comando += listado[j-1];
+                        comando += " INTEGER,";
                     } else if (listado[j] == "DATE," || listado[j] == "DATE") {
                         cont_date++;
-                        comando += "DATE ";
+                        comando += listado[j-1];
+                        comando += " DATE,";
                     } else if (listado[j] == "STRING," || listado[j] == "STRING"){
                         cont_strg++;
-                        comando += "STRING ";
+                        comando += listado[j-1];
+                        comando += " STRING,";
                     } else if (listado[j] == ");"){
                         int conteo = cont_int + cont_date + cont_char + cont_strg;
 
-                        campos[cantCampos] = nuevo;
-                        nuevo->definirComando(comando, conteo);
-                        cantCampos++;
+                        grupos->agregarGrupo(nombreGrupo, comando);
+                        cantGruposs++;
                     }
                 }
                 break;
@@ -74,12 +75,12 @@ Campo** campos;
         }
     }
 
-int encontrarCampo(string nombre){
-    if (campos[0] == nullptr){
+/*int encontrarGrupos(string nombre){
+    if (Gruposs[0] == nullptr){
         return -1;
     } else {
-        for (int i = 0; i < cantCampos; ++i) {
-            if (campos[i]->getName() == nombre){
+        for (int i = 0; i < cantGruposs; ++i) {
+            if (Gruposs[i]->getName() == nombre){
                 return i;
             }
         }
@@ -87,29 +88,36 @@ int encontrarCampo(string nombre){
     }
     return -1;
 }
+ */
+
     void identificarInsercion(string input){
-        string nombreCampo = "";
-        if (input.substr(0, 15) == "ADD CONTACT IN "){
-            input.erase(0, 15);
+        string nombreGrupos = "";
+        string comp = "ADD CONTACT IN ";
+        if (input.length() > comp.length() && input.substr(0, 15) == "ADD CONTACT IN "){
+            input.erase(0, comp.length());
             int tam = input.length();
             for (int i = 0; i < tam; ++i) {
                 if (input.substr(i, 8) == " FIELDS "){
-                    nombreCampo = input.substr(0, i+1);
+                    nombreGrupos = input.substr(0, i+1);
                     input.erase(0, i+7);
+                    if(input.length() > 0 && input[0] == '('){
+                        input.erase(0, 1);
+                    }
+                    if(input.length() > 3 && input.substr(input.length()-2) == ");"){
+                        input.erase(input.length()-2, 2);
+                    }
+                    break;
                 }
             }
-            int encontrar = encontrarCampo(nombreCampo);
-            if (encontrar < 0){
-                cout<<"Campo no encontrado"<< endl;
-            } else {
-                Contacto* nuevo = new Contacto();
+            input += " ";
+            grupos->agregarContacto(nombreGrupos, input);
 
-            }
+
 
         } else {
             cout<<"ESTRUCTURA DEL COMANDO NO RECONOCIDA, VERIFIQUE EL COMANDO"<<endl;
             cout<<"Presione ENTER para continuar"<<endl;
-            cin>>nombreCampo;
+            cin>>nombreGrupos;
         }
     }
 
@@ -121,13 +129,6 @@ int encontrarCampo(string nombre){
         return hashValue;
     }
 
-    void iniciarCampos(){
-        int size = 5;
-        campos = new Campo* [size];
-        for (int i = 0; i < size; ++i) {
-            campos[i] = nullptr;
-        }
-    }
 
 
 
@@ -143,7 +144,7 @@ int main() {
     }
     string cade;
     getline(cin, cade);
-    identificarInsercion(cade);
+    //identificarInsercion(cade);
 
 
     /*

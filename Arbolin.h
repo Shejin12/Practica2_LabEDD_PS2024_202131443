@@ -1,10 +1,10 @@
-#ifndef PRACTICA_2_ARBOL_H
-#define PRACTICA_2_ARBOL_H
+#ifndef PRACTICA_2_ARBOLIN_H
+#define PRACTICA_2_ARBOLIN_H
 
 #include "Nodo.h"
 
 template <typename T>
-class Arbol {
+class Arbolin {
 
 private:
     Nodo<T>* root;
@@ -92,26 +92,6 @@ private:
         return node;
     }
 
-
-
-
-
-
-
-public:
-
-    Arbol() {
-        root = nullptr;
-    }
-
-    void insert(T dato, string infoContacto) {
-        root = insertRecursive(root, dato, infoContacto);
-    }
-
-
-    Nodo<T>* find(T dato) {
-        return findRecursive(root, dato);
-    }
     string obtenerInfoDato(T dato){
         Nodo<T> obtenido = find(dato);
         if (obtenido != nullptr){
@@ -120,6 +100,26 @@ public:
             return "No encontrado";
         }
     }
+
+
+
+
+
+public:
+    void insert(T dato, string infoContacto) /*{
+        root = insertRecursive(root, dato, infoContacto);
+    }*/;
+    Arbolin() {
+        root = nullptr;
+    }
+
+    Nodo<T>* find(T dato) {
+        return findRecursive(root, dato);
+    }
 };
 
-#endif //PRACTICA_2_ARBOL_H
+template <typename T>
+void Arbolin<T>::insert(T dato, string infoContacto) {
+    root = insertRecursive(root, dato, infoContacto);
+}
+#endif //PRACTICA_2_ARBOLIN_H

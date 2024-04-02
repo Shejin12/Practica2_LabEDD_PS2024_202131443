@@ -151,15 +151,9 @@ Log* logger = new Log();
             if(busqueda[0]==' '){
                 busqueda.erase(0,1);
             }
-            if(dato[0] == '='){
-                dato.erase(0,1);
+            if(dato[0] == '=') {
+                dato.erase(0, 1);
             }
-            cout<<nombreGrupos<<endl;
-
-            cout<<busqueda<<endl;
-
-            cout<<dato<<endl;
-
             cout<<grupos->buscar(nombreGrupos,busqueda, dato)<<endl;
         }
 
@@ -230,6 +224,7 @@ int main() {
                  break;
              case 4:
                  logger->log("Clase Main: Se cerro el programa");
+                 fin = !fin;
                  break;
          }
 

@@ -5,6 +5,7 @@
 #include <fstream>
 #include <ctime>
 
+
 using namespace std;
 
 class Log {

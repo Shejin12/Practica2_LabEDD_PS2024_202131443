@@ -3,6 +3,10 @@
 
 #include "Nodo.h"
 #include "Log.h"
+#include <fstream>
+#include <string>
+
+using namespace  std;
 
 template <typename T>
 class Arbol {
@@ -150,6 +154,38 @@ public:
             return obtenido->obtenerInfo();
         } else {
             return "No encontrado";
+        }
+    }
+
+    void exportG(string path){
+        exportRecursive(root,path);
+    }
+
+    void exportRecursive(Nodo<T>* node, string path){
+        if(node != nullptr){
+            string name = path;
+            name += node->obtenerDato();
+            string cont = node->obtenerInfo();
+            save(name, cont);
+
+            if(node->irSiguiente() != nullptr){
+                exportRecursive(node->irSiguiente(), path);
+            }
+            if(node->irAnterior() != nullptr){
+                exportRecursive(node->irAnterior(), path);
+            }
+        }
+
+    }
+
+    void save(string name,  string content) {
+        ofstream archivo(name+ ".txt");
+        if (archivo.is_open()) {
+            archivo << content;
+            archivo.close();
+            cout << "Archivo creado y contenido guardado exitosamente." << endl;
+        } else {
+            cout << "No se pudo abrir el archivo " << name<< endl;
         }
     }
 };

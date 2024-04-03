@@ -7,22 +7,23 @@
 #include "ArbolString.h"
 #include "Arbol.h"
 #include "Log.h"
+#include <cstdlib>
 
 class Grupo{
 private:
     Log* logger = new Log();
     string nombre, listaTipos = "";
     string listaCampos;
-    ArbolInt* Info_int[10];
-    ArbolChar* Info_char[10];
-    ArbolDate* Info_Date[10];
+    ArbolChar*   Info_char[10];
+    ArbolInt*    Info_int[10];
+    ArbolDate*   Info_Date[10];
     ArbolString* Info_strings[10];
 
 public:
 
-    Grupo(string comando){
+    Grupo(string nombre, string comando){
         listaTipos = comando;
-
+        this->nombre = nombre;
         for (int i = 0; i < 10; i++){
             Info_Date[i] = nullptr;
             Info_char[i] = nullptr;
@@ -291,24 +292,8 @@ public:
         return "No se encontro un dato valido";
     }
 
-    void agregarNombre(string name){
-        nombre = name;
-    }
-
-    void agregarChar(char dato){
-
-    }
-
-    void agregarInt(int dato){
-
-    }
-
-    void agregarStrn(string dato){
-
-    }
-
-    void agregarDate(char dato){
-
+    string obtenerNombew(){
+        return nombre;
     }
 
     int hash(string input){
@@ -317,6 +302,38 @@ public:
             hashValue += static_cast<int>(ch);
         }
         return hashValue % 10;
+    }
+
+    void exportar(){
+        string grupo = nombre;
+        if(grupo [grupo.length()-1] == ' '){
+            grupo.erase(grupo.length()-1,1);
+        }
+
+        string comandoCarpeta = "mkdir " + grupo;
+
+        cout<<"Antes de el mkdir"<<endl;
+        system(comandoCarpeta.c_str());
+        cout<<"despues de el mkdir"<<endl;
+        for (int i = 0; i < 10; ++i){
+
+            if(Info_char[i]!= nullptr){
+                Info_char[i]->exportG("./"+grupo+"/");
+                break;
+            }
+            if(Info_int[i]!= nullptr){
+                Info_int[i]->exportG("./"+grupo+"/");
+                break;
+            }
+            if(Info_Date[i]!= nullptr){
+                Info_Date[i]->exportG("./"+grupo+"/");
+                break;
+            }
+            if(Info_strings[i]!= nullptr){
+                Info_strings[i]->exportG("./"+grupo+"/");
+                break;
+            }
+        }
     }
 
 };

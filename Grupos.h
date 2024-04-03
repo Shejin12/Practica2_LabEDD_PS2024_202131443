@@ -11,7 +11,7 @@ private:
     string nombreGrupos;
     Grupo** contactos;
     string comandoInsersion;
-    int cantInsersion = 0;
+    int cantGrupos = 0;
     int size = 5;
 
 
@@ -41,11 +41,6 @@ public:
         return nombreGrupos;
     }
 
-    void definirComando(string comando, int cant){
-        comandoInsersion = comando;
-        cantInsersion = cant;
-    }
-
     void ingresarContacto(Grupo* newContac){
         if (contactos[0] == nullptr){
             contactos[0] = newContac;
@@ -73,10 +68,35 @@ public:
     void agregarGrupo(string name, string comando){
         int pos = hash(name);
         if (contactos[pos] == nullptr){
-            contactos[pos] = new Grupo(comando);
+            contactos[pos] = new Grupo(name, comando);
+            cantGrupos++;
         } else {
             cout<<"Colision"<<endl;
             logger->log("Clase Grupos: Colision al agregar grupo");
+        }
+
+        if (cantGrupos > (size*.6)){
+            int newSize = size * 2;
+            Grupo** aux = new Grupo *[newSize];
+            for (int i = 0; i < newSize; ++i) {
+                aux[i] = nullptr;
+            }
+            int auxSize = size;
+            size = newSize;
+
+            for (int i = 0; i < auxSize; ++i) {
+                if (contactos[i] != nullptr){
+                    int pos = hash(contactos[i]->obtenerNombew());
+                    if (aux[pos] == nullptr){
+                        aux[pos] = contactos[i];
+                        cout<<contactos[i]->obtenerNombew()<< " reubicado"<<endl;
+                    } else {
+                        cout<<"Colision al redimensionar grupos"<<endl;
+                        logger->log("Clase Grupos: Colision al redimensionar grupos");
+                    }
+                }
+            }
+
         }
     }
 
@@ -102,6 +122,15 @@ public:
         }
     }
 
+    void exportar(string name){
+        int pos = hash(name);
+        if(contactos[pos] != nullptr){
+            contactos[pos]->exportar();
+        }else{
+            cout<<"Se quiso exportar el grupo " << name << " pero es nulo"<<endl;
+        }
+
+    }
 };
 
 #endif //PRACTICA_2_Grupos_H

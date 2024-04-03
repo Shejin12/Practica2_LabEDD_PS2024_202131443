@@ -159,6 +159,10 @@ Log* logger = new Log();
 
     }
 
+    void exportacion(string nombre){
+        grupos->exportar(nombre);
+    }
+
     int hash(string input){
         int hashValue = 0;
         for (char ch : input) {
@@ -176,17 +180,6 @@ int main() {
     bool fin = false;
     int opcion;
     string input;
-    /*for (int i = 0; i < 2; ++i) {
-        string cade;
-        getline(cin, cade);
-        identificarCreacion(cade);
-    }
-    string cade;
-    getline(cin, cade);
-    //identificarInsercion(cade);*/
-
-
-
 
      while (!fin){
         cout<<endl;
@@ -197,7 +190,8 @@ int main() {
         cout<<"1.   Ingresar Nuevos Grupos"<<endl;
         cout<<"2.   Insercion de Contactos"<<endl;
         cout<<"3.   Buscar Contactos"<<endl;
-        cout<<"4.   Salir"<<endl;
+        cout<<"4.   Exportar Contactos"<<endl;
+        cout<<"5.   Salir"<<endl;
          getline(cin, input);
          opcion = stoi(input);
 
@@ -222,11 +216,25 @@ int main() {
                  identificarBusqueda(input);
                  logger->log("Clase Main: Se ejecuto Buscar entre los contactos");
                  break;
-             case 4:
+             case 4:{
+                 cout<<"Ingrese el nombre del grupo a exportar: "<<endl;
+                 string nombre = "";
+                 getline(cin, nombre);
+                 exportacion(nombre);
+                 break;
+             }
+
+             case 5:
                  logger->log("Clase Main: Se cerro el programa");
                  fin = !fin;
                  break;
+             default:
+                 cout << "Opción inválida. Por favor, seleccione una opción válida." << endl;
+
          }
+
+         std::cin.clear();
+//         std::cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
 
     }
 
